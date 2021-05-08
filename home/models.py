@@ -20,6 +20,9 @@ class Shoes(models.Model):
     isInTopSale = models.BooleanField(default=False)
     extraStuff = models.TextField(primary_key=False)
 
+    def __str__(self):
+        return self.name
+
 class ProductCart(models.Model):
     product_id = models.ForeignKey(Shoes, on_delete=models.CASCADE)
     quantity = models.IntegerField(primary_key=False, default=0)
@@ -28,5 +31,5 @@ class ProductCart(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Cart(models.Model):
-    productCart_id = models.OneToOneField(ProductCart, on_delete=models.CASCADE)
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE)
     cart_total = models.IntegerField(primary_key=False, default=0)
