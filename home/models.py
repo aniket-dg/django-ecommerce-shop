@@ -26,3 +26,6 @@ class ProductCart(models.Model):
     total = models.IntegerField(primary_key=False, default=0)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
+class Cart(models.Model):
+    productCart_id = models.OneToOneField(ProductCart, on_delete=models.CASCADE)
+    cart_total = models.IntegerField(primary_key=False, default=0)
