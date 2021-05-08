@@ -7,15 +7,19 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 def userLogin(request):
     context = {}
+    if request.user.is_authenticated:
+        return redirect('/home')
     if request.method == "POST":
         formData = LoginForm(request.POST)
         if formData.is_valid():
             user = authenticate(request, username= formData.cleaned_data['username'], password= formData.cleaned_data['password'])
             if user is not None:
                 login(request, user)
+                if 'next' in request.POST:
+                    return redirect(request.POST.get('next'))
                 return redirect('/home')
             else:
-                messages.warning(request, "Invalid Loginn Credentials")
+                messages.warning(request, "Invalid Login Credentials")
                 return redirect('/authentication/authenticate.do/')
         else:
             context['form'] = formData
@@ -48,3 +52,6 @@ def userSignUp(request):
         context['form'] = SignUpForm(None)
         return render(request, 'authentication/signup.html', context)
 
+def userLogout(request):
+    logout(request)
+    return redirect('/home') 

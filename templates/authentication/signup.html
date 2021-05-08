@@ -2,7 +2,10 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <form action="/authentication/user/signup.do/" method="post" >
+  <div class="flex">
   <h1 class="mt-5">Sky Signup</h1>
+  <a href="/authentication/authenticate.do/">Login here</a>
+  </div>
   
 <hr class="mt-0 mb-4">
 {% csrf_token %}
