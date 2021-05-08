@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 class Shoes(models.Model):
     name = models.CharField(max_length=30)
     shoes_category = (
@@ -19,3 +19,10 @@ class Shoes(models.Model):
     img = models.ImageField(upload_to='media/')
     isInTopSale = models.BooleanField(default=False)
     extraStuff = models.TextField(primary_key=False)
+
+class ProductCart(models.Model):
+    product_id = models.OneToOneField(Shoes, on_delete=models.CASCADE)
+    quantity = models.IntegerField(primary_key=False, default=0)
+    total = models.IntegerField(primary_key=False, default=0)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+
