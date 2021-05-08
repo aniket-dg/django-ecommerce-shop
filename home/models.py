@@ -24,6 +24,7 @@ class ProductCart(models.Model):
     product_id = models.OneToOneField(Shoes, on_delete=models.CASCADE)
     quantity = models.IntegerField(primary_key=False, default=0)
     total = models.IntegerField(primary_key=False, default=0)
+    size = models.CharField(max_length=5, default=4)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Cart(models.Model):
