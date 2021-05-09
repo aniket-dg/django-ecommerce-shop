@@ -52,6 +52,7 @@ def showCart(request):
     context = {}
     cleanCart(request)
     context['data'], context['host_media'], context['product_list'], context['cart'], context['user_has_cart'] = extract_data_Cart(request)
+    context['cart_total'] = len(context['product_list'])
     return render(request, 'user_cart.html', context) 
 
 def extract_data_Cart(request): # Backend Method
