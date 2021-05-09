@@ -40,14 +40,14 @@
                   <td>₹ {{ product.product_id.newPrice }}</td>
                   <td>
                     <div class="form-group--number">
-                      <button class="minus" onclick="location.href='/home/user/cart/update/{{ product.id }}/remove';"><span>-</span></button>
+                      <button class="minus" onclick="location.href='/product/user/cart/update/{{ product.id }}/remove';"><span>-</span></button>
                       <input class="form-control" type="text" disabled value="{{ product.quantity }}">
-                      <button class="plus" onclick="location.href='/home/user/cart/update/{{ product.id }}/add';"><span>+</span></button>
+                      <button class="plus" onclick="location.href='/product/user/cart/update/{{ product.id }}/add';"><span>+</span></button>
                     </div>
                   </td>
                   <td>₹ {{ product.total }}</td>
                   <td>
-                    <a href="/home/user/cart/{{ product.id }}/remove/" class="ps-remove"></a>
+                    <a href="/product/user/cart/update/{{ product.id }}/delete/" class="ps-remove"></a>
                   </td>
                 </tr>
                 {% endfor %}

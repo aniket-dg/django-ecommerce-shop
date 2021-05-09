@@ -1,18 +1,15 @@
 from django.contrib import admin
-from home.models import Shoes, ProductCart, Cart
+#from home.models import Cart
 # Register your models here.
 
-class ShoesAdmin(admin.ModelAdmin):
-    list_display = ('name','category', 'oldPrice', 'newPrice')
-
+'''
 class ProductCartAdmin(admin.ModelAdmin):
     list_display = ('product_id', 'user_id', 'quantity', 'size', 'total')
     list_filter =  ('user_id','product_id', 'size')
+'''
+#class CartAdmin(admin.ModelAdmin):
+#    list_display = ('user_id', 'cart_total')
 
-class CartAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'cart_total')
 
-admin.site.register(Shoes, ShoesAdmin)
-admin.site.register(ProductCart, ProductCartAdmin)
-admin.site.register(Cart, CartAdmin)
-
+#admin.site.register(ProductCart, ProductCartAdmin)
+#admin.site.register(Cart, CartAdmin)

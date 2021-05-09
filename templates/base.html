@@ -80,7 +80,7 @@
                   <li class="menu-item menu-item-has-children dropdown"><a href="/home">Home</a>
                   
                   </li>
-                  <li class="menu-item menu-item-has-children has-mega-menu"><a href="/home/user/cart/">Cart</a>
+                  <li class="menu-item menu-item-has-children has-mega-menu"><a href="/cart/user/cart.viewFull/">Cart</a>
                     
                   </li>
                   <li class="menu-item"><a href="#">All Products</a></li>
@@ -121,7 +121,7 @@
                 
                 {% if user_has_cart %}
                 {% for product in product_list %}
-                  <div class="ps-cart-item"><a class="ps-cart-item__close" href="/home/user/cart/{{ product.id }}/remove/"></a>
+                  <div class="ps-cart-item"><a class="ps-cart-item__close" href="/product/user/cart/update/{{ product.id }}/delete/"></a>
                     <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="{{ host_media }}{{ product.product_id.img }}" alt=""></div>
                     <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="product-detail.html">{{ product.product_id.name }}</a>
                       <p><span>Quantity:<i>{{ product.quantity }}</i></span><span>Total:<i>₹ {{ product.product_id.newPrice }}</i></span></p>
