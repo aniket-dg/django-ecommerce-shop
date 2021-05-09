@@ -92,4 +92,8 @@ def change_item_to_cart(request, productCart_id, op):
     product.save()
     updateProductCart(request, product.id)
     updateCart(request, request.user)
+
+def remove_product_from_cart(request, product_id):
+    product = ProductCart.objects.filter(id = product_id).delete()
+    return redirect('/home/user/cart/')
     
