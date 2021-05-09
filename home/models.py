@@ -22,6 +22,8 @@ class Shoes(models.Model):
 
     def __str__(self):
         return self.name
+    class Meta:
+        ordering = ['name']
 
 class ProductCart(models.Model):
     product_id = models.ForeignKey(Shoes, on_delete=models.CASCADE)
@@ -29,7 +31,10 @@ class ProductCart(models.Model):
     total = models.IntegerField(primary_key=False, default=0)
     size = models.CharField(max_length=5, default=4)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    class Meta:
+        ordering = ['product_id']
 
 class Cart(models.Model):
     user_id = models.OneToOneField(User, on_delete=models.CASCADE)
     cart_total = models.IntegerField(primary_key=False, default=0)
+    
