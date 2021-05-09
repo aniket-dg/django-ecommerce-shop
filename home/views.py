@@ -8,8 +8,12 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 # Create your views here.
 def index(request):
-    data = Shoes.objects.all()
-    return render(request, 'index.html', { 'data':data , 'host_media':HOST_MEDIA })
+    context = {}
+    cleanCart(request)
+    context['Shoesdata'] = Shoes.objects.all()
+    context['data'], context['host_media'], context['product_list'], context['cart'], context['user_has_cart'] = extract_data_Cart(request)
+    context['cart_total'] = len(context['product_list'])
+    return render(request, 'index.html', context)
 
 @login_required(login_url = '/authentication/authenticate.do/')
 def productDetail(request, product_id):
@@ -43,18 +47,30 @@ def updateProductCart(request, product_id): # update product cart using product_
     if user_product.quantity == 0:
         user_product.delete()
 
-def showCart(request):
+def showCart(request): 
+    cleanProductCart(request)
     context = {}
     cleanCart(request)
+    context['data'], context['host_media'], context['product_list'], context['cart'], context['user_has_cart'] = extract_data_Cart(request)
+    return render(request, 'user_cart.html', context) 
+
+def extract_data_Cart(request): # Backend Method
+    context = {}
     product_list = ProductCart.objects.filter(user_id = request.user)
-    cart = Cart.objects.get(user_id = request.user)
-    context['data'] = False
-    context['host_media'] = HOST_MEDIA
+    user_has_cart = True
+    try:
+        cart = Cart.objects.get(user_id = request.user)
+    except ObjectDoesNotExist:
+        cart = None
+        user_has_cart = False
+    data = False
+    host_media = HOST_MEDIA
     if len(product_list) > 0:
-        context['product_list'] = product_list
-        context['cart'] = cart
-        context['data'] = True
-    return render(request, 'user_cart.html', context)   
+        product_list = product_list
+        cart = cart
+        data = True
+    return data, host_media, product_list, cart, user_has_cart 
+
 
 def updateCart(request, user): #Method for update User Cart from userCart()
     products = ProductCart.objects.filter(user_id = user)
@@ -69,12 +85,19 @@ def updateCart(request, user): #Method for update User Cart from userCart()
     user_cart.cart_total = total
     user_cart.save()
 
-def cleanCart(request):
+def cleanProductCart(request):
     products = ProductCart.objects.filter(user_id = request.user, quantity=0).delete()
+
+def cleanCart(request):
+    userCart = ProductCart.objects.filter(user_id = request.user)
+    if len(userCart) == 0:
+        Cart.objects.filter(user_id = request.user).delete()
+
+    print("Cart Total:",len(userCart))
     
 def cartOperation(request, productcart_id, op):
     change_item_to_cart(request, productcart_id, op)
-    cleanCart(request)
+    cleanProductCart(request)
     return redirect('/home/user/cart/')
 
 def change_item_to_cart(request, productCart_id, op):
