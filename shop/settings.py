@@ -11,7 +11,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-HOST = 'http://192.168.43.193:8000/'
+HOST_MEDIA = 'http://192.168.43.193:8000/media/'
 ALLOWED_HOSTS = [
     '192.168.43.193',
 ]
