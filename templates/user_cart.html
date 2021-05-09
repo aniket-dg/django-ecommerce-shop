@@ -25,6 +25,7 @@
               <thead>
                 <tr>
                   <th>All Products</th>
+                  <th>Size</th>
                   <th>Price</th>
                   <th>Quantity</th>
                   <th>Total</th>
@@ -35,6 +36,7 @@
               {% for product in product_list %}
                 <tr>
                   <td><a class="ps-product__preview" href="product-detail.html"><img class="mr-15" height="100" width="100" src="{{ host_media }}{{ product.product_id.img }}" alt=""> {{ product.product_id.name }}</a></td>
+                  <td>{{ product.size }}</td>
                   <td>₹ {{ product.product_id.newPrice }}</td>
                   <td>
                     <div class="form-group--number">
@@ -45,7 +47,7 @@
                   </td>
                   <td>₹ {{ product.total }}</td>
                   <td>
-                    <div class="ps-remove"></div>
+                    <a href="/home/user/cart/{{ product.id }}/remove/" class="ps-remove"></a>
                   </td>
                 </tr>
                 {% endfor %}
