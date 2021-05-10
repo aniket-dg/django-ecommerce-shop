@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from billing.models import Address, Billing
 def userLogin(request):
     context = {}
     if request.user.is_authenticated:
@@ -37,12 +38,16 @@ def userSignUp(request):
             first_name = formData.cleaned_data['name']
             email = formData.cleaned_data['email']
             password = formData.cleaned_data['password']
+            contact_no = formData.cleaned_data['contact_no']
+            address = formData.cleaned_data['address']
             try:
                 User.objects.get(username = username, password= password)
                 messages.warning(request, "User already Registered")
                 return redirect('/authentication/authenticate.do/')
             except ObjectDoesNotExist:
                 user = User.objects.create_user(username= username, email= email, first_name= first_name, password= password)
+                user_add = Address(address = address, contact_no = contact_no, user_id = user)
+                user_add.save()
                 messages.success(request, "Signed Up Successfully")
                 return redirect('/authentication/authenticate.do/')
         else:

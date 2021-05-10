@@ -12,7 +12,7 @@
     <meta name="author" content="Nghia Minh Luong">
     <meta name="keywords" content="Default Description">
     <meta name="description" content="Default keyword">
-    <title>Sky - Homepage</title>
+    <title>Sky - Django Ecommerce Shop</title>
     <!-- Fonts-->
     <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900" rel="stylesheet">
@@ -51,25 +51,19 @@
                   {% if request.user.is_authenticated %}
                   <a href="/authentication/user/logout">Logout</a>
                   {% endif %}    
-                    <div class="btn-group ps-dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">USD<i class="fa fa-angle-down"></i></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#"><img src="{% static 'images/flag/usa.svg' %}" alt=""> USD</a></li>
-                        <li><a href="#"><img src="{% static 'images/flag/singapore.svg' %}" alt=""> SGD</a></li>
-                        <li><a href="#"><img src="{% static 'images/flag/japan.svg' %}" alt=""> JPN</a></li>
-                      </ul>
-                    </div>
-                    <div class="btn-group ps-dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language<i class="fa fa-angle-down"></i></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">English</a></li>
-                        <li><a href="#">Japanese</a></li>
-                        <li><a href="#">Chinese</a></li>
-                      </ul>
-                    </div>
+                    
                   </div>
                 </div>
           </div>
         </div>
       </div>
+      {% if messages %}
+          {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}" role="alert" style="text-align: center;">
+                  {{ message }}
+              </div>
+          {% endfor %}
+      {% endif %}
       <nav class="navigation">
         <div class="container-fluid">
           <div class="navigation__column left">
@@ -83,31 +77,15 @@
                   <li class="menu-item menu-item-has-children has-mega-menu"><a href="/cart/user/cart.viewFull/">Cart</a>
                     
                   </li>
-                  <li class="menu-item"><a href="#">All Products</a></li>
-                  <li class="menu-item"><a href="#">Kids</a></li>
-                  <li class="menu-item menu-item-has-children dropdown"><a href="#">News</a>
-                        <ul class="sub-menu">
-                          <li class="menu-item menu-item-has-children dropdown"><a href="blog-grid.html">Blog-grid</a>
-                                <ul class="sub-menu">
-                                  <li class="menu-item"><a href="blog-grid.html">Blog Grid 1</a></li>
-                                  <li class="menu-item"><a href="blog-grid-2.html">Blog Grid 2</a></li>
-                                </ul>
-                          </li>
-                          <li class="menu-item"><a href="blog-list.html">Blog List</a></li>
-                        </ul>
-                  </li>
-                  <li class="menu-item menu-item-has-children dropdown"><a href="#">Contact</a>
-                        <ul class="sub-menu">
-                          <li class="menu-item"><a href="contact-us.html">Contact Us #1</a></li>
-                          <li class="menu-item"><a href="contact-us.html">Contact Us #2</a></li>
-                        </ul>
-                  </li>
+                  <li class="menu-item"><a href="/home/products/all/list.view">All Products</a></li>
+                  
+                  
                 </ul>
           </div>
           <div class="navigation__column right">
-            <form class="ps-search--header" action="do_action" method="post">
-              <input class="form-control" type="text" placeholder="Search Product…">
-              <button><i class="ps-icon-search"></i></button>
+            <form class="ps-search--header" action="/home/search/product/" method="GET">
+              <input class="form-control" name="q" type="text" placeholder="Search Product…">
+              <button type="submit"><i class="ps-icon-search"></i></button>
             </form>
 
 
@@ -115,11 +93,11 @@
             <div class="ps-cart"><a class="ps-cart__toggle" href="#"><span><i>{{ cart_total }}</i></span><i class="ps-icon-shopping-cart"></i></a>
               <div class="ps-cart__listing">
                 <div class="ps-cart__content">
-                {% if not user_has_cart %}
+                {% if not user_has_cart or request.user.is_anonymous %}
                  <div class="ps-cart__footer"><a class="ps-btn">Empty Cart<i class="ps-icon-arrow-left"></i></a></div>
                 {% endif %}
                 
-                {% if user_has_cart %}
+                {% if user_has_cart or not request.user.is_anonymous%}
                 {% for product in product_list %}
                   <div class="ps-cart-item"><a class="ps-cart-item__close" href="/product/user/cart/update/{{ product.id }}/delete/"></a>
                     <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="{{ host_media }}{{ product.product_id.img }}" alt=""></div>
@@ -133,7 +111,7 @@
                   <!-- <p>Number of items:<span>36</span></p> -->
                   <p>Item Total:<span>₹ {{ cart.cart_total }}</span></p>
                 </div>
-                <div class="ps-cart__footer"><a class="ps-btn" href="cart.html">Check out<i class="ps-icon-arrow-left"></i></a></div>
+                <div class="ps-cart__footer"><a class="ps-btn" href="/cart/user/checkout.view/">Check out<i class="ps-icon-arrow-left"></i></a></div>
               </div>
             </div>
             {% endif %}
@@ -163,8 +141,8 @@
                 </div>
                 <div class="col-lg-5 col-md-7 col-sm-12 col-xs-12 ">
                   <form class="ps-subscribe__form" action="do_action" method="post">
-                    <input class="form-control" type="text" placeholder="">
-                    <button>Sign up now</button>
+                    <input class="form-control" type="text" placeholder="" disabled>
+                    <button disabled>Sign up now</button>
                   </form>
                 </div>
                 <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12 ">

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <main class="ps-main">
+      
+      <div class="ps-section--features-product ps-section masonry-root pt-100 pb-100">
+        <div class="ps-container">
+          
+          <div class="ps-section__content pb-50">
+            <div class="masonry-wrapper" data-col-md="4" data-col-sm="2" data-col-xs="1" data-gap="30" data-radio="100%">
+              <div class="ps-masonry">
+                <div class="grid-sizer"></div>
+                
+                {% if is_search_data %}
+                {% for data in Shoesdata %}
+                <div class="grid-item {{ data.category }}">
+                  <div class="grid-item__content-wrapper">
+                    <div class="ps-shoe mb-30">
+                      <div class="ps-shoe__thumbnail">
+                        {% if data.isNew %}
+                        <div class="ps-badge"><span>
+                        New
+                        </span></div>{% endif %}
+                        {% if data.isInOffer %}
+                        <div class="ps-badge ps-badge--sale ps-badge--2nd">
+                        <span>
+                        {{ data.discount }}
+                        </span></div>
+                        {% endif %}
+                        <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{{ host_media }}{{ data.img }}" alt=""><a class="ps-shoe__overlay" href="/product/view/{{ data.id }}/detail.View/"></a>
+                      </div>
+                      <div class="ps-shoe__content">
+                        <div class="ps-shoe__variants">
+                      <div class="ps-shoe__variant normal"></div>
+                      {{ data.extraStuff }}
+                    </div>
+                        <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#"> {{ data.name }} </a>
+                          <p class="ps-shoe__categories" style="margin-top:10px;">{{ data.desc }}</p><span class="ps-shoe__price">
+                            <del>₹ {{ data.oldPrice }}</del>&nbsp;₹ {{ data.newPrice }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                {% if not is_search_data %}
+                    <div class="text-center">
+                        <button class="ps-btn ps-btn--gray text-center" onclick="location.href='/home/products/all/list.view';">Sorry, No products Found. Please search another product.</button>
+                    </div>
+                {% endif %}
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+{% endblock %}

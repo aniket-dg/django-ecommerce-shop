@@ -26,13 +26,16 @@ class SignUpForm(forms.Form):
     username = forms.CharField(min_length=4, max_length=8)
     password = forms.CharField(widget=forms.PasswordInput(), label="Password", max_length=8)
     rpassword = forms.CharField(widget=forms.PasswordInput(), label="Repeat Password", max_length=8)
-
+    contact_no = forms.IntegerField()
+    address = forms.CharField(widget=forms.Textarea)
     def clean(self):
         super(SignUpForm, self).clean()
         name = self.cleaned_data.get('name')
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
         rpassword = self.cleaned_data.get('rpassword')
+        contact_no = self.cleaned_data.get('contact_no')
+        address = self.cleaned_data.get('address')
 
         if name == None:
             self._errors['name'] = self.error_class(['Name must not be Empty'])
@@ -44,5 +47,9 @@ class SignUpForm(forms.Form):
             self._errors['password'] = self.error_class(['Passsword length must be greater than 4'])
         if password != rpassword:
             self._errors['rpassword'] = self.error_class(['Password must be same'])
+        if contact_no is not None and len(contact_no) > 10:
+            self._errors['contact_no'] = self.error_class(['Enter Valid Phone Number'])
+        if address is None or address == "":
+            self._errors['address'] = self.error_class(['Enter shipping Address'])
         return self.cleaned_data
 
