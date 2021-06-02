@@ -1,5 +1,5 @@
 # django-ecommerce-shop
-Ecommerce Webs App using Django Python Framework. [Live Preview here](http://hospitalsystemmanagement25.pythonanywhere.com/)
+Ecommerce Webs App using Django Python Framework. [Live Preview here](http://djangoshop.pythonanywhere.com/)
 ## Installation
 ```
 git clone https://github.com/aniket-dg/django-ecommerce-shop.git
